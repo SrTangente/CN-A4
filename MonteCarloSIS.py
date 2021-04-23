@@ -17,39 +17,44 @@ for g in graphs:
         p = []
 
         for beta in np.arange(0, 1.02, 0.02):
+            p_sum_N = 0
 
-            p_sum = 0
-            infected = {}
-            for n in nx.nodes(net):
-                if np.random.random() < p_0:
-                    infected[n] = True
-                else:
-                    infected[n] = False
+            for i in range(N_rep):
 
-            infected_copy = infected.copy()
-
-            for t in range(T_max):
-
+                p_sum = 0
+                infected = {}
                 for n in nx.nodes(net):
-                    if infected[n]:
-                        if np.random.random() < mu:
-                            infected_copy[n] = False
+                    if np.random.random() < p_0:
+                        infected[n] = True
                     else:
-                        neighbors = nx.neighbors(net, n)
-                        for neigh in neighbors:
-                            if infected[neigh]:
-                                if np.random.random() < beta:
-                                    infected_copy[n] = True
-                                    break
-                infected = infected_copy.copy()
+                        infected[n] = False
 
-                if t >= T_trans:
-                    p_t = len([y for y in infected.keys() if infected[y]])
-                    p_sum += p_t
+                infected_copy = infected.copy()
 
-            avg_p = p_sum/(T_max-T_trans)
-            p.append(avg_p)
+                for t in range(T_max):
 
-        with open('p_values_mu='+str(mu), mode='w') as o:
+                    for n in nx.nodes(net):
+                        if infected[n]:
+                            if np.random.random() < mu:
+                                infected_copy[n] = False
+                        else:
+                            neighbors = nx.neighbors(net, n)
+                            for neigh in neighbors:
+                                if infected[neigh]:
+                                    if np.random.random() < beta:
+                                        infected_copy[n] = True
+                                        break
+                    infected = infected_copy.copy()
+
+                    if t >= T_trans:
+                        p_t = len([y for y in infected.keys() if infected[y]])/len(infected.keys())
+                        p_sum += p_t
+
+                avg_p = p_sum/(T_max-T_trans)
+                p_sum_N += avg_p
+
+            p.append(p_sum_N/N_rep)
+
+        with open('p_values_'+str(g)+'mu='+str(mu), mode='w') as o:
             print(p, file=o)
 
