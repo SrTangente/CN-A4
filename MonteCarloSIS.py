@@ -12,6 +12,7 @@ mu_values = [0.1, 0.5, 0.9]
 
 for g in graphs:
     net = nx.Graph(nx.read_pajek(g))
+    graph_name = g.split('/')[-1][:-4]
 
     for mu in mu_values:
         p = []
@@ -55,6 +56,6 @@ for g in graphs:
 
             p.append(p_sum_N/N_rep)
 
-        with open('p_values_'+str(g)+'mu='+str(mu), mode='w') as o:
+        with open('p_values_' + graph_name + 'mu='+str(mu), mode='w') as o:
             print(p, file=o)
 
