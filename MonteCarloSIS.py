@@ -8,6 +8,7 @@ T_trans = 900
 
 graphs = ['./model/ER1000k8.net', './model/SF_500_g2.7.net', './real/airports_UW.net']
 
+
 mu_values = [0.1, 0.5, 0.9]
 
 for g in graphs:
@@ -16,10 +17,10 @@ for g in graphs:
 
     for mu in mu_values:
         p = []
-
+        std = []
         for beta in np.arange(0, 1.02, 0.02):
             p_sum_N = 0
-
+            p_sum_N_list = list()
             for i in range(N_rep):
 
                 p_sum = 0
@@ -53,9 +54,11 @@ for g in graphs:
 
                 avg_p = p_sum/(T_max-T_trans)
                 p_sum_N += avg_p
-
+                p_sum_N_list.append(avg_p)
             p.append(p_sum_N/N_rep)
-
+            std.append(np.std(p_sum_N_list))
         with open('p_values_' + graph_name + 'mu='+str(mu), mode='w') as o:
             print(p, file=o)
 
+        with open('std_values_' + graph_name + 'mu='+str(mu), mode='w') as o:
+            print(std, file=o)
