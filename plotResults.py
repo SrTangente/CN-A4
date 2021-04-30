@@ -15,6 +15,7 @@ def plot_res(list_of_res,mu_values):
         ax.set_ylabel(r'$\rho$')
         #ax.fill_between(beta_values, res - std , res + std, alpha=0.3)
     fig.show()
+    fig.savefig('results_'+graph_path.split('/')[-1][:-4]+'.png',dpi=100)
 
 
 beta_values = np.arange(0.00,1.02,0.02)
