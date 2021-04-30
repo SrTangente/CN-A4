@@ -1,7 +1,7 @@
 import networkx as nx
 import numpy as np
 
-N_rep = 100
+N_rep = 50
 T_max = 1000
 p_0 = 0.2
 T_trans = 900

@@ -10,7 +10,7 @@ def plot_res(list_of_res,mu_values):
         ax.plot(beta_values,res,label = 'mu = '+mu)
         ax.legend()
         ax.set_title(graph_path.split('/')[-1][:-4])
-        ax.legend(loc='bottom right')
+        ax.legend(loc='lower right')
         ax.set_xlabel(r'$\beta$')
         ax.set_ylabel(r'$\rho$')
         #ax.fill_between(beta_values, res - std , res + std, alpha=0.3)
